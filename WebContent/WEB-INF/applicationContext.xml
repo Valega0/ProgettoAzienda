@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:tx="http://www.springframework.org/schema/tx"
+xmlns:context="http://www.springframework.org/schema/context"
+xmlns:jee="http://www.springframework.org/schema/jee"
+xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd
+http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+<!--In Spring, applicationContext.xml plays the role of an IoC container(crea gli oggetti, configura e assembla le loro dipendenze,
+gestisce il loro intero ciclo di vita) -->
+
+
+<context:annotation-config />
+
+
+
+<!-- Scan for all of Spring components such as Spring Service -->
+<context:component-scan base-package="it.azienda.service"></context:component-scan>
+
+
+
+
+<!-- Necessary to get the entity manager injected into the factory bean -->
+<bean
+class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+
+
+
+
+<!-- Define Hibernate JPA Vendor Adapter :Specificare l'implementazione di JpaVendorAdapter per il provider JPA desiderato,
+se presente. In questo modo verranno inizializzate le impostazioni predefinite appropriate per il provider specificato, come
+la classe del provider di persistenza e JpaDialect, a meno che non vengano sovrascritte localmente in questo FactoryBean -->
+<bean id="jpaVendorAdapter"
+class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+<property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect" />
+</bean>
+
+
+
+
+<!-- Entity Manager Factory: il LocalEntityManagerFactoryBean crea un EntityManagerFactory adatto per ambienti che utilizzano
+esclusivamente JPA per l'accesso ai dati. The factory bean utilizzer� il PersistenceProvider meccanismo di rilevamento automatico
+JPA -->
+
+
+
+<bean
+class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean"
+id="emf">
+<property name="packagesToScan" value="it.azienda.entity" />
+<property name="jpaVendorAdapter" ref="jpaVendorAdapter" />
+<property name="persistenceUnitName" value="GestioneAzienda" />
+</bean>
+
+
+
+
+
+<!-- Transaction Manager: declarative transaction model to drive resource updates under transactional control -->
+<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+<property name="entityManagerFactory" ref="emf" />
+</bean>
+
+
+
+
+<!-- Detect @Transactional :per rilevare le transazioni Spring nel nostro codice -->
+<tx:annotation-driven transaction-manager="transactionManager" />
+
+
+
+
+</beans>

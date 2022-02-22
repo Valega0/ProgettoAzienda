@@ -1,0 +1,59 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:s="http://jboss.org/schema/seam/taglib">
+
+<h:head></h:head>
+<body>
+	<h:form id="employeeForm">
+		<p:growl id="growl" showDetail="true" />
+		<p:growl id="growl-sticky" for="sticky-key" showDetail="true"
+			sticky="true" />
+
+		<p:panelGrid columns="1">
+			<div class="ui-fluid">
+
+				<div class="p-field">
+					<h:outputText value="name" for="nameEmp" />
+					<p:inputText value="#{controllerEmployee.newEmployee.nameEmp}"
+						type="text" required="true" />
+				</div>
+
+				<div class="p-field">
+					<h:outputText value="Data Assunzione" for="Data Assuzione" />
+					<p:calendar id="dateEmp"
+						value="#{controllerEmployee.newEmployee.dateEmp}"
+						pattern="dd-MM-yyyy " showOn="button" required="true" />
+				</div>
+
+				<div class="p-field">
+					<h:outputText value="Salario" for="salaryEmp" />
+					<p:inputText value='#{controllerEmployee.newEmployee.salaryEmp}'
+						type="text" required="true" />
+				</div>
+
+				<div class="p-field p-col-12 p-md-4">
+					<p:outputLabel value="Dipartimento" />
+					<p:selectOneMenu id="dipartimento"
+						value="#{controllerEmployee.newEmployee.idDep}"
+						label="Always Show Label" alwaysDisplayLabel="true">
+						<f:selectItems value="#{controllerEmployee.listDepartment}"
+							var="dep" itemValue="#{dep.idDep}" itemLabel="#{dep.nameDep}" />
+					</p:selectOneMenu>
+				</div>
+
+				<p:commandButton value="Salva"
+					action="#{controllerEmployee.createEmployee()}"
+					process="employeeForm" update="growl" style="width: 10rem"
+					styleClass="ui-button-outlined"></p:commandButton>
+
+
+			</div>
+		</p:panelGrid>
+
+	</h:form>
+</body>
+</html>

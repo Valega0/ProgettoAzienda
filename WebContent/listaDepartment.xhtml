@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:s="http://jboss.org/schema/seam/taglib">
+
+
+<h:head>
+	<title>Lista Department</title>
+
+</h:head>
+<h:body>
+	<!-- Navbar -->
+	<ui:insert name="template">
+			<ui:include src="/pages/template.xhtml" />
+		</ui:insert>
+	<div>
+		<br /> <br /> <br />
+		<center>
+			<h2>
+				<h:outputText value="Department Records" />
+			</h2>
+		</center>
+
+	</div>
+	<h:form id="departmentForm">
+		<p:growl id="growl" showDetail="true" />
+		<p:growl id="growl-sticky" for="sticky-key" showDetail="true"
+			sticky="true" />
+		<p:messages id="messages" showDetail="true" closable="true"
+			globalOnly="true" />
+		<div class="form-group">
+			<div class="col-sm-4"></div>
+		</div>
+		<p:dataTable id="departmentTable"
+			selection="#{controllerDepartment.selectDepartment}"
+			selectionMode="single" rowKey="#{dipartimento.idDep}" rows="20"
+			value="#{controllerDepartment.arrDepartment}" var="dipartimento"
+			styleclass="tablestyle">
+
+			<p:column headerText="Nome Dipartimento">
+				<h:outputText value="#{dipartimento.nameDep}">
+				</h:outputText>
+			</p:column>
+
+		</p:dataTable>
+		<p:commandButton action="createDepartment.xhtml?faces-redirect=true"
+			styleClass="btn btn-success btnSpace" update="growl"
+			value="Inserisci un nuovo dipartimento"></p:commandButton>
+
+		<p:commandButton action="#{controllerDepartment.updateDepartment()}"
+			styleClass="btn btn-success btnSpace" value="Modica un dipartimento"
+			update="growl" style="width: 10rem"></p:commandButton>
+
+		<p:commandButton value="Elimina"
+			action="#{controllerDepartment.deleteDepartment()}" update="growl"
+			process="departmentForm" style="width: 10rem"
+			styleClass="btn btn-success btnSpace"></p:commandButton>
+	</h:form>
+
+</h:body>
+</html>

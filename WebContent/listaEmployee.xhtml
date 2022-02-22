@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:s="http://jboss.org/schema/seam/taglib">
+
+
+<h:head>
+	<title>Lista Employee</title>
+	
+	
+</h:head>
+<h:body>
+
+	<!-- Navbar -->
+	<ui:insert name="template">
+			<ui:include src="/pages/template.xhtml" />
+		</ui:insert>
+		
+	<div>
+		<br /> <br /> <br />
+		<center>
+			<h2>
+				<h:outputText value="Employee Records" />
+			</h2>
+		</center>
+
+	</div>
+	<h:form id="employeeForm">
+		<p:growl id="growl" showDetail="true" />
+		<p:growl id="growl-sticky" for="sticky-key" showDetail="true"
+			sticky="true" />
+		<p:messages id="messages" showDetail="true" closable="true">
+
+		</p:messages>
+
+		<div class="form-group">
+			<div class="col-sm-4"></div>
+		</div>
+		<p:dataTable id="employeeTable" selectionMode="single"
+			selection="#{controllerEmployee.selectEmployee}"
+			rowKey="#{dipendente.idEmp}" rows="20"
+			value="#{controllerEmployee.arrEmployee}" var="dipendente"
+			styleClass="table table-hover">
+
+			<p:column headerText="Nome Dipendente">
+				<h:outputText value="#{dipendente.nameEmp}" />
+			</p:column>
+			<p:column headerText="Data Assunzione">
+				<h:outputText value="#{dipendente.dateEmp}" />
+			</p:column>
+
+			<p:column headerText="Salario">
+				<h:outputText value="#{dipendente.salaryEmp}" />
+			</p:column>
+
+			<p:column headerText="Dipartimento">
+				<h:outputText value="#{dipendente.department.nameDep}" />
+			</p:column>
+
+
+		</p:dataTable>
+		
+		<p:commandButton id="btn" value="View" icon="pi pi-home" action="#{dfRootView.openLevel1}">
+            <p:ajax event="dialogReturn" listener="#{dfRootView.onReturnFromLevel1}" update="growl"/>
+        </p:commandButton>
+		<p:commandButton action="createEmployee.xhtml?faces-redirect=true"
+			styleClass="btn btn-success btnSpace"
+			value="Inserisci un nuovo dipendente" update="growl"></p:commandButton>
+
+		<p:commandButton action="#{controllerEmployee.updateEmployee()}"
+			styleClass="btn btn-success btnSpace" update="growl"
+			value="Modica un dipendente"></p:commandButton>
+
+
+		<p:commandButton value="Elimina"
+			action="#{controllerEmployee.deleteEmployee()}"
+			process="employeeForm" update="growl">
+		</p:commandButton>
+		
+	</h:form>
+
+</h:body>
+</html>

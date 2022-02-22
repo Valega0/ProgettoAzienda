@@ -1,0 +1,24 @@
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+	
+	<!-- Navbar -->
+
+	<p:tabMenu activeIndex="0" >
+
+		<p:menuitem value = "HOME" url="home.xhtml" icon="ui-icon-home " />
+
+		<p:menuitem value = "EMPLOYEE" url="listaEmployee.xhtml"
+			icon=" ui-icon-person" />
+
+		<p:menuitem value = "DEPARTMENT" url="listaDepartment.xhtml"
+			icon="ui-icon-clipboard" />
+
+
+		</p:tabMenu>
+</ui:composition>
