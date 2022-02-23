@@ -6,52 +6,53 @@
 	xmlns:p="http://primefaces.org/ui"
 	xmlns:s="http://jboss.org/schema/seam/taglib">
 
-<h:head></h:head>
-<body>
-	<h:form id="employeeForm">
-		<p:growl id="growl" showDetail="true" />
-		<p:growl id="growl-sticky" for="sticky-key" showDetail="true"
-			sticky="true" />
-		<p:panelGrid columns="1">
-			<div class="ui-fluid">
+<p:outputPanel id="editPanelE">
+	<body>
+		<h:form id="employeeForm">
+			<p:growl id="growl" showDetail="true" />
+			<p:growl id="growl-sticky" for="sticky-key" showDetail="true"
+				sticky="true" />
+			<p:panelGrid columns="1" id="employeePanel">
+				<div class="ui-fluid">
 
-				<div class="p-field">
-					<h:outputText value="name" for="nameEmp" />
-					<p:inputText value="#{controllerEmployee.selectEmployee.nameEmp}"
-						type="text" />
+					<div class="p-field">
+						<h:outputText value="name" for="nameEmp" />
+						<p:inputText value="#{controllerEmployee.selectEmployee.nameEmp}"
+							type="text" />
+					</div>
+
+					<div class="p-field">
+						<h:outputText value="Data Assunzione" for="dataEmp" />
+						<p:calendar id="dateEmp"
+							value="#{controllerEmployee.selectEmployee.dateEmp}"
+							pattern="dd-MM-yyyy " showOn="button" required="true" />
+					</div>
+
+					<div class="p-field">
+						<h:outputText value="Salario" for="salaryEmp" />
+						<p:inputText
+							value='#{controllerEmployee.selectEmployee.salaryEmp}'
+							type="text" />
+					</div>
+
+					<div class="p-field p-col-12 p-md-4">
+						<p:outputLabel value="Dipartimento" />
+						<p:selectOneMenu id="dipartimento"
+							value="#{controllerEmployee.selectEmployee.idDep}"
+							label="Always Show Label" alwaysDisplayLabel="true">
+							<f:selectItems value="#{controllerEmployee.listDepartment}"
+								var="dep" itemValue="#{dep.idDep}" itemLabel="#{dep.nameDep}" />
+						</p:selectOneMenu>
+					</div>
+
+					<!--Bottoni-->
+					<p:commandButton value="Modifica"
+						action="#{controllerEmployee.saveUpdateEmp()}"
+						process="employeeForm" update="growl"></p:commandButton>
+
 				</div>
-
-				<div class="p-field">
-					<h:outputText value="Data Assunzione" for="dataEmp" />
-					<p:calendar id="dateEmp"
-						value="#{controllerEmployee.selectEmployee.dateEmp}"
-						pattern="dd-MM-yyyy " showOn="button" required="true" />
-				</div>
-
-				<div class="p-field">
-					<h:outputText value="Salario" for="salaryEmp" />
-					<p:inputText value='#{controllerEmployee.selectEmployee.salaryEmp}'
-						type="text" />
-				</div>
-
-				<div class="p-field p-col-12 p-md-4">
-					<p:outputLabel value="Dipartimento" />
-					<p:selectOneMenu id="dipartimento"
-						value="#{controllerEmployee.selectEmployee.idDep}"
-						label="Always Show Label" alwaysDisplayLabel="true">
-						<f:selectItems value="#{controllerEmployee.listDepartment}"
-							var="dep" itemValue="#{dep.idDep}" itemLabel="#{dep.nameDep}" />
-					</p:selectOneMenu>
-				</div>
-
-				<p:commandButton value="Modifica"
-					action="#{controllerEmployee.saveUpdateEmp()}"
-					process="employeeForm" update="growl"></p:commandButton>
-
-			</div>
-		</p:panelGrid>
-
-
-	</h:form>
-</body>
+			</p:panelGrid>
+		</h:form>
+	</body>
+</p:outputPanel>
 </html>

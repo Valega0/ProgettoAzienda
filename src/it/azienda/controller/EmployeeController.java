@@ -10,6 +10,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.primefaces.context.RequestContext;
 import org.springframework.stereotype.Controller;
 
 import it.azienda.entity.Department;
@@ -48,48 +49,61 @@ public class EmployeeController implements Serializable {
 	}
 
 	// create
-	public String createEmployee() throws AleardyExistEmployeeException {
+	public void createEmployee() throws AleardyExistEmployeeException {
 
 		try {
 			employeeService.createNewEmployee(newEmployee);
+			RequestContext.getCurrentInstance().execute("PF('newEmployeeDialog').hide()");
 			reloadEmployee();
-
-			return "listaEmployee.xhtml?faces-redirect=true";
 
 		} catch (AleardyExistEmployeeException e) {
 			FacesMessage currentInstance = new FacesMessage(FacesMessage.SEVERITY_ERROR, "ERROR",
 					"Utente " + newEmployee.getNameEmp() + " già esistente");
 			FacesContext.getCurrentInstance().addMessage("prova", currentInstance);
-			return null;
+
 		} catch (Exception e) {
 			// TODO ritornare messaggio di errore a thymeleaf
 			System.out.println(e.getMessage());
-			return e.getMessage();
+
 		}
 
 	}
 
+	// dialog per un nuovo dipendente
+	public void openNew() {
+		try {
+			setNewEmployee(newEmployee);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+	}
+
 	// update
 	public String updateEmployee() {
-		FacesContext context = FacesContext.getCurrentInstance(); 
-		if(selectEmployee!=null) {
-			
-			return "editEmployee.xhtml?faces-redirect=true";
-			}
-		context.addMessage("", new FacesMessage(FacesMessage.SEVERITY_ERROR,"ATTENZIONE", "Selezionare un dipendente") );
-		return null;
-}
+		FacesContext context = FacesContext.getCurrentInstance();
+		if (selectEmployee != null) {
 
+			return "editEmployee.xhtml?faces-redirect=true";
+		}
+		context.addMessage("",
+				new FacesMessage(FacesMessage.SEVERITY_ERROR, "ATTENZIONE", "Selezionare un dipendente"));
+		return null;
+	}
 
 	public String saveUpdateEmp() {
 		employeeService.updateEmployee(selectEmployee);
+		RequestContext.getCurrentInstance().execute("PF('editEmployeeDialog').hide()");
 		reloadEmployee();
 		return "listaEmployee.xhtml?faces-redirect=true";
 	}
 
-//	Reload 
-	public void reloadEmployee() {
-		setArrEmployee(employeeService.getAllEmployees());
+	// dialog di modifica
+	public void openModify() {
+		try {
+			setSelectEmployee(selectEmployee);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 	}
 
 	// delete
@@ -109,6 +123,13 @@ public class EmployeeController implements Serializable {
 		}
 		reloadEmployee();
 	}
+
+//	Reload 
+	public void reloadEmployee() {
+		setArrEmployee(employeeService.getAllEmployees());
+	}
+
+	// get and set
 
 	public Employee getEmployee() {
 		return newEmployee;

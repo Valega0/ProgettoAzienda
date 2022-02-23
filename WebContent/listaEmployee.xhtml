@@ -9,16 +9,14 @@
 
 <h:head>
 	<title>Lista Employee</title>
-	
-	
 </h:head>
 <h:body>
 
 	<!-- Navbar -->
 	<ui:insert name="template">
-			<ui:include src="/pages/template.xhtml" />
-		</ui:insert>
-		
+		<ui:include src="/pages/template.xhtml" />
+	</ui:insert>
+
 	<div>
 		<br /> <br /> <br />
 		<center>
@@ -48,6 +46,7 @@
 			<p:column headerText="Nome Dipendente">
 				<h:outputText value="#{dipendente.nameEmp}" />
 			</p:column>
+
 			<p:column headerText="Data Assunzione">
 				<h:outputText value="#{dipendente.dateEmp}" />
 			</p:column>
@@ -57,31 +56,48 @@
 			</p:column>
 
 			<p:column headerText="Dipartimento">
-			
 				<h:outputText value="#{dipendente.department.nameDep}" />
 			</p:column>
 
-
 		</p:dataTable>
+
+		<!--Bottoni-->
+		<!-- Nuovo -->
+		<p:commandButton value="creaDipendente" id="btnNuovoE"
+			resetValue="true" process="@this"
+			update="employeeTable, :employeeForm:newPanelE"
+			action="#{controllerEmployee.openNew()}"
+			oncomplete="PF('newEmployeeDialog').show()">
+
+		</p:commandButton>
+
+		<!-- Modifica -->
+		<p:commandButton value="editDipendente" id="btnModificaE"
+			resetValue="true" process="employeeTable"
+			update="employeePanel, :employeeForm:editPanelE"
+			action="#{controllerEmployee.openModify()}"
+			oncomplete="PF('editEmployeeDialog').show()">
+		</p:commandButton>
 		
-		<p:commandButton id="btn" value="View" icon="pi pi-home" action="#{dfRootView.openLevel1}">
-            <p:ajax event="dialogReturn" listener="#{dfRootView.onReturnFromLevel1}" update="growl"/>
-        </p:commandButton>
-		<p:commandButton action="createEmployee.xhtml?faces-redirect=true"
-			styleClass="btn btn-success btnSpace"
-			value="Inserisci un nuovo dipendente" update="growl"></p:commandButton>
-
-		<p:commandButton action="#{controllerEmployee.updateEmployee()}"
-			styleClass="btn btn-success btnSpace" update="growl"
-			value="Modica un dipendente"></p:commandButton>
-
-
+		<!-- Elimina  -->
 		<p:commandButton value="Elimina"
 			action="#{controllerEmployee.deleteEmployee()}"
 			process="employeeForm" update="growl">
 		</p:commandButton>
-		
-	</h:form>
 
+		<!--Dialog  -->
+
+		<p:dialog header="Modica un dipendente" position="center"
+			widgetVar="editEmployeeDialog" modal="true" showEffect="blind"
+			hideEffect="fade" resizable="false">
+			<ui:include src="/editEmployee.xhtml"></ui:include>
+		</p:dialog>
+
+		<p:dialog header="Crea un dipendente" position="center"
+			widgetVar="newEmployeeDialog" modal="true" showEffect="blind"
+			hideEffect="fade" resizable="false">
+			<ui:include src="/createEmployee.xhtml"></ui:include>
+		</p:dialog>
+	</h:form>
 </h:body>
 </html>
