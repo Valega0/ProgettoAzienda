@@ -1,17 +1,18 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:s="http://jboss.org/schema/seam/taglib">
+	xmlns:p="http://primefaces.org/ui">
 
 	<p:outputPanel id="newPanelE">
 
 		<!-- <h:form id="employeeForm"> -->
-		<p:growl id="growl" showDetail="true" />
+		<!-- <p:growl id="growl" showDetail="true" />
 		<p:growl id="growl-sticky" for="sticky-key" showDetail="true"
-			sticky="true" />
+			sticky="true" /> -->
 
 		<p:panelGrid columns="1">
 			<div class="ui-fluid">
@@ -44,15 +45,17 @@
 							var="dep" itemValue="#{dep.idDep}" itemLabel="#{dep.nameDep}" />
 					</p:selectOneMenu>
 				</div>
-
-				<p:commandButton value="Salva"
-					actionListener="#{controllerEmployee.createEmployee()}" process="newPanelE"
-					update=" newPanelE, :employeeForm :employeeTable"
-					style="width: 10rem" styleClass="ui-button-outlined">
-				</p:commandButton>
 			</div>
+
 		</p:panelGrid>
 
+		<p:commandButton value="Salva"
+			actionListener="#{controllerEmployee.createEmployee()}"
+			process="newPanelE" update="newPanelE,:employeeForm:employeeTable"
+			style="width: 10rem" styleClass="ui-button-outlined">
+		</p:commandButton>
+
+
 		<!-- 	</h:form> -->
-</p:outputPanel>
+	</p:outputPanel>
 </ui:composition>

@@ -1,103 +1,106 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"
+<!DOCTYPE composition PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:s="http://jboss.org/schema/seam/taglib"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:s="http://jboss.org/schema/seam/taglib">
+	xmlns:p="http://primefaces.org/ui">
 
+	<h:head>
+		<title>Lista Employee</title>
+	</h:head>
+	<h:body>
 
-<h:head>
-	<title>Lista Employee</title>
-</h:head>
-<h:body>
+		<!-- Navbar -->
+		<ui:insert name="template">
+			<ui:include src="/pages/template.xhtml" />
+		</ui:insert>
 
-	<!-- Navbar -->
-	<ui:insert name="template">
-		<ui:include src="/pages/template.xhtml" />
-	</ui:insert>
+		<div>
+			<br /> <br /> <br />
+			<center>
+				<h2>
+					<h:outputText value="Employee Records" />
+				</h2>
+			</center>
 
-	<div>
-		<br /> <br /> <br />
-		<center>
-			<h2>
-				<h:outputText value="Employee Records" />
-			</h2>
-		</center>
-
-	</div>
-	<h:form id="employeeForm">
-		<p:growl id="growl" showDetail="true" />
-		<p:growl id="growl-sticky" for="sticky-key" showDetail="true"
-			sticky="true" />
-		<p:messages id="messages" showDetail="true" closable="true">
-
-		</p:messages>
-
-		<div class="form-group">
-			<div class="col-sm-4"></div>
 		</div>
-		<p:dataTable id="employeeTable" selectionMode="single"
-			selection="#{controllerEmployee.selectEmployee}"
-			rowKey="#{dipendente.idEmp}" rows="20"
-			value="#{controllerEmployee.arrEmployee}" var="dipendente"
-			styleClass="table table-hover">
+		<h:form id="employeeForm">
+			<p:growl id="growl" showDetail="true" />
+			<p:growl id="growl-sticky" for="sticky-key" showDetail="true"
+				sticky="true" />
+			<p:messages id="messages" showDetail="true" closable="true">
 
-			<p:column headerText="Nome Dipendente">
-				<h:outputText value="#{dipendente.nameEmp}" />
-			</p:column>
+			</p:messages>
 
-			<p:column headerText="Data Assunzione">
-				<h:outputText value="#{dipendente.dateEmp}" />
-			</p:column>
+			<!-- Nuovo -->
+			<div style="text-align: left; padding: 15px 0px 15px 5px">
+				<p:commandButton value="creaDipendente" id="btnNuovoE"
+					resetValue="true" process="@this"
+					update="employeeTable,:employeeForm:newPanelE"
+					action="#{controllerEmployee.openNew()}"
+					oncomplete="PF('newEmployeeDialog').show()">
+				</p:commandButton>
+			</div>
 
-			<p:column headerText="Salario">
-				<h:outputText value="#{dipendente.salaryEmp}" />
-			</p:column>
+			<div class="form-group">
+				<div class="col-sm-4"></div>
+			</div>
+			<p:dataTable id="employeeTable" selectionMode="single"
+				selection="#{controllerEmployee.selectEmployee}"
+				rowKey="#{dipendente.idEmp}" rows="20"
+				value="#{controllerEmployee.arrEmployee}" var="dipendente"
+				styleClass="table table-hover">
 
-			<p:column headerText="Dipartimento">
-				<h:outputText value="#{dipendente.department.nameDep}" />
-			</p:column>
+				<p:column headerText="Nome Dipendente">
+					<h:outputText value="#{dipendente.nameEmp}" />
+				</p:column>
 
-		</p:dataTable>
+				<p:column headerText="Data Assunzione">
+					<h:outputText value="#{dipendente.dateEmp}" />
+				</p:column>
 
-		<!--Bottoni-->
-		<!-- Nuovo -->
-		<p:commandButton value="creaDipendente" id="btnNuovoE"
-			resetValue="true" process="@this"
-			update="employeeTable, :employeeForm:newPanelE"
-			action="#{controllerEmployee.openNew()}"
-			oncomplete="PF('newEmployeeDialog').show()">
+				<p:column headerText="Salario">
+					<h:outputText value="#{dipendente.salaryEmp}" />
+				</p:column>
 
-		</p:commandButton>
+				<p:column headerText="Dipartimento">
+					<h:outputText value="#{dipendente.department.nameDep}" />
+				</p:column>
 
-		<!-- Modifica -->
-		<p:commandButton value="editDipendente" id="btnModificaE"
-			resetValue="true" process="employeeTable"
-			update="employeePanel, :employeeForm:editPanelE"
-			action="#{controllerEmployee.openModify()}"
-			oncomplete="PF('editEmployeeDialog').show()">
-		</p:commandButton>
-		
-		<!-- Elimina  -->
-		<p:commandButton value="Elimina"
-			action="#{controllerEmployee.deleteEmployee()}"
-			process="employeeForm" update="growl">
-		</p:commandButton>
+			</p:dataTable>
 
-		<!--Dialog  -->
+			<!--Bottoni-->
 
-		<p:dialog header="Modica un dipendente" position="center"
-			widgetVar="editEmployeeDialog" modal="true" showEffect="blind"
-			hideEffect="fade" resizable="false">
-			<ui:include src="/editEmployee.xhtml"></ui:include>
-		</p:dialog>
 
-		<p:dialog header="Crea un dipendente" position="center"
-			widgetVar="newEmployeeDialog" modal="true" showEffect="blind"
-			hideEffect="fade" resizable="false">
-			<ui:include src="/createEmployee.xhtml"></ui:include>
-		</p:dialog>
-	</h:form>
-</h:body>
-</html>
+			<!-- Modifica -->
+			<p:commandButton value="editDipendente" id="btnModificaE"
+				resetValue="true" process="employeeTable"
+				update="employeeTable,:employeeForm:editPanelE"
+				action="#{controllerEmployee.openModify()}">
+				<!-- oncomplete="PF('editEmployeeDialog').show()" -->
+			</p:commandButton>
+
+			<!-- Elimina  -->
+			<p:commandButton value="Elimina"
+				action="#{controllerEmployee.deleteEmployee()}"
+				process="employeeForm" update="growl">
+			</p:commandButton>
+
+			<!--Dialog  -->
+
+			<p:dialog header="Modica un dipendente" position="center"
+				widgetVar="editEmployeeDialog" modal="true" showEffect="blind"
+				hideEffect="fade" resizable="false">
+				<ui:include src="/editEmployee.xhtml"></ui:include>
+			</p:dialog>
+
+			<p:dialog header="Crea un dipendente" position="center"
+				widgetVar="newEmployeeDialog" modal="true" showEffect="blind"
+				hideEffect="fade" resizable="false">
+				<ui:include src="/createEmployee.xhtml"></ui:include>
+			</p:dialog>
+		</h:form>
+	</h:body>
+</ui:composition>
